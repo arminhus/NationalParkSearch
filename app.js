@@ -13,49 +13,46 @@
 // As a stretch goal, try adding the park's address to the results.
 const API_KEY = 'api_key=YSDEGRMwmQ9qYfIetvJsMqnSjkvXri54zvv0INLa';
 // https://api.nps.gov/api/v1/parks?stateCode=GA&stateCode=FL&api_key=YSDEGRMwmQ9qYfIetvJsMqnSjkvXri54zvv0INLa
-let getParkData = (states) => {
-    const PARK_DATA_LINK = "https://api.nps.gov/api/v1/parks?" + `${states}` + API_KEY;
-    console.log(PARK_DATA_LINK);
+let getParkData = (states, resultCount) => {
+    const PARK_DATA_LINK = "https://api.nps.gov/api/v1/parks?" + `${states}` + resultCount + API_KEY;
     fetch(PARK_DATA_LINK)
         .then(res => res.json())
-        .then(parkData => {
-            parkData.data.map(results => {
-                displayParkResults(results);
-                // let name = results.fullName
-                // let desc = results.description
-                // let url = results.url
-                // console.log(name, desc, url);
-            });
-        })
+        .then(parkData => displayParkResults(parkData));
 };
 
-let displayParkResults = (results) => {
+let displayParkResults = (parkData) => {
     let resultHTML = "";
-    results.map(item => {
-        resultHTML += `<div class="repo-box">
-        <h2 class="repo-name">${item.fullName}</h2>
-        <a class="repo-link" href="${item.url}">${results.url}</a>
-        <p>${item.description}</p>
+    //         <h2 class="item-name">${item.fullName}</h2>
+    parkData.data.map(item => {
+        resultHTML += `<div class="item-box">
+        <a class="item-link" href="${item.url}">${item.fullName}</a>
+        <p class="item-description">${item.description}</p>
       </div>`;
     });
     $(".park-results").html(resultHTML);
 };
 
-let buildStateString = (formInputResult) => {
+let buildStateString = (formInputResult, resultCount) => {
     let stateArray = formInputResult.split(",").map(res => res.trim());
     let states = stateArray.map(states => "stateCode=" + states + "&").join("");
-    getParkData(states);
+    getParkData(states, resultCount);
 };
 
 let getFormInput = () => {
     $('#state-form').submit(event => {
         event.preventDefault();
         let formInputResult = $(event.currentTarget).find(".js-query").val().toUpperCase();
-        if (formInputResult.length > 2) {
-            buildStateString(formInputResult);
+        let resultLimit = $(event.currentTarget).find(".js-search-limit").val();
+        let num = Number(resultLimit)
+        let resultCount;
+        if (Number.isInteger(num) && num > 0) {
+            resultCount = "limit=" + (num - 1) + "&";
+            // buildStateString(formInputResult, resultCount);
         } else {
-            getParkData("stateCode=" + formInputResult + "&");
+            resultCount = "limit=9&";
+            // buildStateString(formInputResult, resultCount);
         }
+        buildStateString(formInputResult, resultCount);
     });
 };
 

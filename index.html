@@ -13,8 +13,10 @@
     <main>
         <div class="container">
             <h1>Search for National Parks</h1>
+            <p>If entering multiple states please seperate them by a comma.</p>
             <form id="state-form">
-                <input type="text" class="js-query" placeholder="Which state?" />
+                <input type="text" class="js-query" placeholder="Which state?" required />
+                <input type="text" class="js-search-limit" placeholder="Search Limit" />
                 <input class="btn" type="submit" value="Search" />
             </form>
             <section class="results hidden">

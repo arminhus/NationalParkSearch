@@ -1,0 +1,40 @@
+.item-box {
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 600px;
+}
+
+.item-box:hover {
+    background-color: #ebebeb;
+}
+
+.item-link {
+    font-size: 1.5em;
+    color: lightsalmon;
+    text-decoration: none;
+}
+
+.item-link:hover {
+    color: rgb(255, 0, 0);
+}
+
+.item-description {
+    margin-bottom: 0px;
+}
+
+.btn {
+    border: 1px solid #f1f1f1;
+    border-radius: 2px;
+    padding: 7px 14px;
+    background-color: #f3f3f3;
+    font-weight: bold;
+}
+
+.btn:hover {
+    border-color: #e7e7e7;
+    background-color: #f1f1f1;
+}
+
+.btn:focus {
+    border-color: rgb(37, 128, 231);
+}
